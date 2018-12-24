@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -124,17 +125,34 @@ public class Board extends JPanel {
 	
 	}
 	
-	//Draws an arrow(line, actually) to show the direction and force of the hit
+	//Draws an arrow to show the direction and force of the hit
 	public void drawArrow(Graphics g, Chap chap) {
 		
 		if(clickedChap != null) {
+			
 			Graphics2D g2 = (Graphics2D) g;
+			g2.setColor(Color.GREEN);
 			double[] position = chap.getPosition();
+			double changeX = position[0] - mousePoint.getX();
+			double changeY = position[1] - mousePoint.getY();
 			double endX = position[0] + (position[0] - mousePoint.getX());
 			double endY = position[1] + (position[1] - mousePoint.getY());
 			
+			//The main line
 			g2.draw(new Line2D.Double(position[0], position[1], 
 					endX, endY));
+			
+			//Arrow head
+			Path2D.Double arrow = new Path2D.Double();
+			arrow.moveTo(endX, endY);
+			arrow.lineTo(endX - 10 * (Math.cos(Math.atan(changeY / changeX) + (Math.PI / 2))), 
+					endY - 10 * (Math.sin(Math.atan(changeY / changeX) + (Math.PI / 2))));
+			arrow.lineTo(endX + changeX * 0.2, endY + changeY * 0.2);
+			arrow.lineTo(endX + 10 * (Math.cos(Math.atan(changeY / changeX) + (Math.PI / 2))), 
+					endY + 10 * (Math.sin(Math.atan(changeY / changeX) + (Math.PI / 2))));
+			arrow.lineTo(endX, endY);
+			g2.draw(arrow);
+			
 		}
 		
 	}
