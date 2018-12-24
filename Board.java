@@ -26,6 +26,7 @@ public class Board extends JPanel {
 			public void mouseReleased(MouseEvent e) {
 				
 				clickedFirstTime = true;
+				clickedChap = null;
 				
 			}
 			
@@ -48,6 +49,7 @@ public class Board extends JPanel {
 				
 				if(clickedChap != null) {
 					//System.out.println(Constants.distance(e, clickedChap));
+					System.out.println("Calling the arrow");
 					shouldDrawArrow = true;
 					mousePoint = e.getPoint();
 					repaint();
@@ -79,6 +81,7 @@ public class Board extends JPanel {
 		
 		//Runs only if a mouse drag occurred
 		if(shouldDrawArrow) {
+			System.out.println("Time to draw the arrow");
 			drawArrow(g, clickedChap);
 		}
         
@@ -124,13 +127,15 @@ public class Board extends JPanel {
 	//Draws an arrow(line, actually) to show the direction and force of the hit
 	public void drawArrow(Graphics g, Chap chap) {
 		
-		Graphics2D g2 = (Graphics2D) g;
-		double[] position = chap.getPosition();
-		double endX = position[0] + (position[0] - mousePoint.getX());
-		double endY = position[1] + (position[1] - mousePoint.getY());
-		
-		g2.draw(new Line2D.Double(position[0], position[1], 
-				endX, endY));
+		if(clickedChap != null) {
+			Graphics2D g2 = (Graphics2D) g;
+			double[] position = chap.getPosition();
+			double endX = position[0] + (position[0] - mousePoint.getX());
+			double endY = position[1] + (position[1] - mousePoint.getY());
+			
+			g2.draw(new Line2D.Double(position[0], position[1], 
+					endX, endY));
+		}
 		
 	}
 	
