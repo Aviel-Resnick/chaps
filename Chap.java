@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 
 /*
@@ -11,11 +10,10 @@ Chap Class
 
 public class Chap {
 
-  private static final double FRICTION_COEFFICIENT = 0.75; //friction coefficent. constant.
   private double[] position = new double[2]; //position vector
   private double[] velocity = new double[2]; //velocity vector
   private boolean onBoard;
-  private int team; //color. is int so we could possibly have 2+ teams.
+  private int team; //int so we could possibly have 2+ teams.
 
   public Chap(double[] pos, double[] vel, int team) {
     this.position = pos;
