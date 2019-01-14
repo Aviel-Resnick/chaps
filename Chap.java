@@ -14,11 +14,13 @@ public class Chap {
   private double[] velocity = new double[2]; //velocity vector
   private boolean onBoard;
   private int team; //int so we could possibly have 2+ teams.
+  private boolean isMoving;
 
   public Chap(double[] pos, double[] vel, int team) {
     this.position = pos;
     this.velocity = vel;
     this.onBoard = true;
+    this.isMoving = false;
     this.team = team;
   }
 
@@ -61,6 +63,10 @@ public class Chap {
 
   public boolean isOnBoard() {
     return this.onBoard;
+  }
+
+  public boolean isMoving() {
+    return this.isMoving;
   }
 
   public int getTeam() {
