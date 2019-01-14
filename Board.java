@@ -28,9 +28,10 @@ public class Board extends JPanel {
 
 				clickedFirstTime = true;
 				clickedChap = null;
+				// we call the physics part and animate the result
 
+				Main.gameLoop();
 			}
-
 		});
 
 		this.addMouseMotionListener(new MouseAdapter() {

@@ -33,6 +33,21 @@ public class Main {
 
 	}
 
+	public static void gameLoop() {
+
+		boolean allStop = false;
+
+		while(win == 0) {
+			while(allStop == false) {
+				findNextEvent(); //we are guaranteed that nothing happens till t=nextEvent.
+				animate(Event.getTime()); //move pieces assuming nothing collides until that time.
+				handleEvent(event);
+				allstop = checkStop();
+			}
+			//TODO: decide who's turn it is to flick, give user input.
+		}
+	}
+
 	public static void initialize() {
 
 		JFrame frame = new JFrame("Chapayev");
