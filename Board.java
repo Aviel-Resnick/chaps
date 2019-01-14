@@ -17,6 +17,7 @@ public class Board extends JPanel {
 	private Chap clickedChap;
 	private boolean shouldDrawArrow;
 	private Point mousePoint;
+	private int team = 1;
 
 
 	public Board() {
@@ -30,7 +31,7 @@ public class Board extends JPanel {
 				clickedChap = null;
 				// we call the physics part and animate the result
 
-				Main.gameLoop();
+				team = Main.gameLoop();
 			}
 		});
 
@@ -42,7 +43,7 @@ public class Board extends JPanel {
 				//Determine which chap was clicked if one of them was clicked
 				if(clickedFirstTime) {
 					for(Chap chap : Main.board) {
-						if(chap.isClicked(e)) {
+						if(chap.isClicked(e) && chap.getTeam() == team) {
 							clickedChap = chap;
 							clickedFirstTime = false;
 							break;
@@ -92,7 +93,7 @@ public class Board extends JPanel {
 	public void initializeOneSide(Graphics g, Color color, int y) {
 
 		g.setColor(color);
-		int team = color.equals(Constants.ONE_COLOR) ? 1 : 2;
+		int teamByColor = color.equals(Constants.ONE_COLOR) ? 1 : 2;
 		int x;
 
 		for(int i = 0; i < 8; i++) {
@@ -102,7 +103,7 @@ public class Board extends JPanel {
 
 			//Populate the list with the initial chaps
 			if(Main.board.size() < 16) {	//Prevents the addition of copies due to the repainting
-				Main.board.add(new Chap(new double[] {x, y}, new double[] {0, 0}, team));
+				Main.board.add(new Chap(new double[] {x, y}, new double[] {0, 0}, teamByColor));
 			}
 
 		}

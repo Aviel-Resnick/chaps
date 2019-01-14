@@ -70,16 +70,16 @@ public class Chap {
   public void setTeam(int team) {
     this.team = team;
   }
-  
+
   public boolean isClicked(MouseEvent e) {
-		
+
 		if(e.getX() <= this.position[0] + Constants.RADIUS && e.getX() >= this.position[0] - Constants.RADIUS &&
 				e.getY() >= this.position[1] - Constants.RADIUS && e.getY() <= this.position[1] + Constants.RADIUS) {
 			return true;
 		}
-		
+
 		return false;
-		
+
 	}
-  
+
 }

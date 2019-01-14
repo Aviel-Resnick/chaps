@@ -14,39 +14,21 @@ public class Main {
 
 		initialize();
 
-		/*
-		 * This code needs to be worked on
-		boolean allStop = false;
-	    //the game is played here.
-	    initializeChaps()
-
-	    while(win == 0) {
-	      while(allStop == false) {
-	        findNextEvent(); //we are guaranteed that nothing happens till t=nextEvent.
-	        animate(Event.getTime()); //move pieces assuming nothing collides until that time.
-	        handleEvent(event);
-	        allstop = checkStop();
-	      }
-	      //TODO: decide who's turn it is to flick, give user input.
-	    }
-	    */
-
 	}
 
-	public static void gameLoop() {
+public static int gameLoop() {
 
-		boolean allStop = false;
-
-		while(win == 0) {
-			while(allStop == false) {
-				findNextEvent(); //we are guaranteed that nothing happens till t=nextEvent.
-				animate(Event.getTime()); //move pieces assuming nothing collides until that time.
-				handleEvent(event);
-				allstop = checkStop();
-			}
-			//TODO: decide who's turn it is to flick, give user input.
-		}
+	boolean allStop = false;
+	while(allStop == false) {
+		findNextEvent(); //we are guaranteed that nothing happens till t=nextEvent.
+		animate(Event.getTime()); //move pieces assuming nothing collides until that time.
+		handleEvent(event);
+		allstop = checkStop();
 	}
+	//now, all the peices have stopped moving.
+	//figure out whose turn it is
+	return team;
+}
 
 	public static void initialize() {
 
