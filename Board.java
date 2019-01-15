@@ -31,7 +31,9 @@ public class Board extends JPanel {
 				clickedChap = null;
 				// we call the physics part and animate the result
 
-				team = Main.gameLoop();
+				team = Main.gameLoop(team);
+
+				//TODO: Add a way to check that a player won/ winning message
 			}
 		});
 

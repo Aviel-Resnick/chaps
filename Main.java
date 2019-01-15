@@ -16,17 +16,25 @@ public class Main {
 
 	}
 
-public static int gameLoop() {
+public static int gameLoop(team) {
 
 	boolean allStop = false;
+	boolean teamSwitch = false;
 	while(allStop == false) {
 		findNextEvent(); //we are guaranteed that nothing happens till t=nextEvent.
-		animate(Event.getTime()); //move pieces assuming nothing collides until that time.
+		teamSwitch = animate(Event.getTime()); //move pieces assuming nothing collides until that time.
 		handleEvent(event);
+		updateBoard();
 		allstop = checkStop();
 	}
 	//now, all the peices have stopped moving.
 	//figure out whose turn it is
+	if(team == 1 && teamSwitch == true){
+		team = 2;
+	}
+	else if(team == 2 && teamSwitch == true){
+		team = 1;
+	}
 	return team;
 }
 
