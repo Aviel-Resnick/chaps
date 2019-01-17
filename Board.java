@@ -34,6 +34,28 @@ public class Board extends JPanel {
 				team = Main.gameLoop(team);
 
 				//TODO: Add a way to check that a player won/ winning message
+
+				boolean won = true;
+				int firstTeamCount, secondTeamCount;
+
+				for(Chap chap : Main.board) {
+					if(chap.getTeam() == 0){
+						firstTeamCount++;
+					}
+					else {
+						secondTeamCount++;
+					}
+				}
+
+				if(firstTeamCount > 0 && secondTeamCount == 0){
+					// team 0 won, not sure how we want to use this, I'll just print for debugging purposes
+					System.out.println("Team 0 Won");
+				}
+
+				if(firstTeamCount == 0 && secondTeamCount > 0){
+					// team 1 won, not sure how we want to use this, I'll just print for debugging purposes
+					System.out.println("Team 1 Won");
+				}
 			}
 		});
 
