@@ -38,11 +38,13 @@ public class Chap {
     return {-1,-1};
   }
 
-  public double[] stopTime() { //tells when the chap will stop moving assuming no collisions.
+  public double stopTime(double time) { //tells when the chap will stop moving assuming no collisions.
+    //TODO: MAKE SURE TO ADD the CURRENT TIME FROM PARAMETERS!
     if(velocity == [0,0]) {
-      return {-1,-1};
+      return -1;
     }
-    return {-1,-1}
+    return -1;
+    //TODO: MAKE SURE TO ADD the CURRENT TIME FROM PARAMETERS!
   }
 
 

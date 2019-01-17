@@ -16,36 +16,35 @@ public class Main {
 
 	}
 
-public static int gameLoop(team) {
-	//TODO: ADD TIME COUNTING!!!!
-
-	boolean allStop = false;
-	boolean teamSwitch = false;
-	while(allStop == false) {
-		findNextEvent(); //we are guaranteed that nothing happens till t=nextEvent.
-		teamSwitch = animate(Event.getTime(), team); //move pieces assuming nothing collides until that time.
-		handleEvent(event);
-		updateBoard();
-		allstop = checkStop();
-	}
-	//now, all the peices have stopped moving.
-	//figure out whose turn it is
-	if(team == 1 && teamSwitch == true){
-		team = 2;
-	}
-	else if(team == 2 && teamSwitch == true){
-		team = 1;
-	}
-	return team;
-}
-
 	public static void initialize() {
-
 		JFrame frame = new JFrame("Chapayev");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(new Board());
 		frame.pack();
 		frame.setVisible(true);
+	}
+
+	public static int gameLoop(team) {
+		double time = 0;
+		boolean allStop = false;
+		boolean teamSwitch = false;
+		while(allStop == false) {
+			findNextEvent(time); //we are guaranteed that nothing happens till t=nextEvent.
+			teamSwitch = animate(event.getTime(), team); //move pieces assuming nothing collides until that time.
+			time = event.getTime();
+			handleEvent(event);
+			updateBoard();
+			allstop = checkStop();
+		}
+		//now, all the peices have stopped moving.
+		//figure out whose turn it is
+		if(team == 1 && teamSwitch == true){
+			team = 2;
+		}
+		else if(team == 2 && teamSwitch == true){
+			team = 1;
+		}
+		return team;
 	}
 
 	public static boolean checkStop() { //returns false if any chap is still moving.
@@ -59,13 +58,13 @@ public static int gameLoop(team) {
 	}
 
 	/*
-	public static double findNextEvent() {
+	public static double findNextEvent(double time) {
 	    double smallest = -1; //-1 is the special character for "NO EVENT"
 
 	    //iterate over all predicted stops. find soonest one.
 	    event.type = 1;
 	    for(Chap c : board){
-	      double candidate = c.stopTime(); //This doesn't exist at the moment
+	      double candidate = c.stopTime(time);
 	      if(candidate > 0 && candidate < smallest) {
 	        smallest = candidate;
 	        event.c1 = c;
@@ -80,7 +79,7 @@ public static int gameLoop(team) {
 	          double candidate = -1;
 	        }
 	        else {
-	          double candidate = collide(a,b); //collide needs to be worked on
+	          double candidate = collide(a,b,time); //collide needs to be worked on
 	          if(candidate > 0 && candidate < smallest) {
 	            smallest = candidate;
 	            event.type = 2;
@@ -114,8 +113,9 @@ public static int gameLoop(team) {
 	*/
 
 	/*
-	public static double collide(Chap a, Chap b) { //return time of collision between a and b.
+	public static double collide(Chap a, Chap b, double time) { //return time of collision between a and b.
 	    //this method requires some serious stuff.
+			//add calculated time to collision to current time t.
 	    return 0;
 	  }
 	*/
