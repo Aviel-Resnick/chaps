@@ -22,7 +22,7 @@ public static int gameLoop(team) {
 	boolean teamSwitch = false;
 	while(allStop == false) {
 		findNextEvent(); //we are guaranteed that nothing happens till t=nextEvent.
-		teamSwitch = animate(Event.getTime()); //move pieces assuming nothing collides until that time.
+		teamSwitch = animate(Event.getTime(), team); //move pieces assuming nothing collides until that time.
 		handleEvent(event);
 		updateBoard();
 		allstop = checkStop();
@@ -94,6 +94,15 @@ public static int gameLoop(team) {
 	    //these loops have automatically populated the Event. time to animate!
 	}
 	*/
+
+	public static boolean animate(Event e, int color) {
+		boolean teamSwitch  = false;
+		if(e.type == 3 && e.c1.getTeam() == color){
+			teamSwitch = true;
+		}
+		//TODO: animations, changing positions.
+		return teamSwitch;
+	}
 
 	/*
 	public static handleEvent(event e) {
