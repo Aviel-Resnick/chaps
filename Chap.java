@@ -33,13 +33,18 @@ public class Chap {
     System.out.println("---------------------------");
   }
 
-  /*
+  public double[] whereAt(double t){
+    //returns where it will be in t time units.
+    return {-1,-1};
+  }
+
   public double[] stopTime() { //tells when the chap will stop moving assuming no collisions.
     if(velocity == [0,0]) {
-      return -1;
+      return {-1,-1};
     }
+    return {-1,-1}
   }
-  */
+
 
   public double[] move(double time) { //use the friction # to simulate movement
     return this.position; //placeholder until we code this

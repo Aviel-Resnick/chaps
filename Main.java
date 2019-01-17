@@ -17,6 +17,7 @@ public class Main {
 	}
 
 public static int gameLoop(team) {
+	//TODO: ADD TIME COUNTING!!!!
 
 	boolean allStop = false;
 	boolean teamSwitch = false;
@@ -99,8 +100,9 @@ public static int gameLoop(team) {
 		boolean teamSwitch  = false;
 		if(e.type == 3 && e.c1.getTeam() == color){
 			teamSwitch = true;
+			//animate
+			e.c1.whereAt(e.time);
 		}
-		//TODO: animations, changing positions.
 		return teamSwitch;
 	}
 
