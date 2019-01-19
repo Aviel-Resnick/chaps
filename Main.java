@@ -24,13 +24,15 @@ public class Main {
 		frame.setVisible(true);
 	}
 
-	public static int gameLoop(team) {
+	public static int gameLoop(int team) {
 		double time = 0;
 		boolean allStop = false;
 		boolean teamSwitch = false;
 		while(allStop == false) {
-			findNextEvent(time); //we are guaranteed that nothing happens till t=nextEvent.
-			teamSwitch = animate(event.getTime(), team); //move pieces assuming nothing collides until that time.
+			findNextEvent(time);
+			//we are guaranteed that nothing happens till t=nextEvent.
+			//move pieces assuming nothing collides until that time.
+			teamSwitch = animate(event.getTime(), team);
 			time = event.getTime();
 			handleEvent(event);
 			updateBoard();
@@ -113,11 +115,11 @@ public class Main {
 	*/
 
 	/*
-	public static double collide(Chap a, Chap b, double time) { //return time of collision between a and b.
-	    //this method requires some serious stuff.
-			//add calculated time to collision to current time t.
-	    return 0;
-	  }
-	*/
-
+	public static double collide(Chap a, Chap b, double time) {
+		//return time of collision between a and b.
+	   //this method requires some serious stuff.
+		//add calculated time to collision to current time t.
+	   return 0;
+	 }
+	 */
 }

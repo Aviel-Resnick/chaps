@@ -35,12 +35,14 @@ public class Chap {
 
   public double[] whereAt(double t){
     //returns where it will be in t time units.
-    return {-1,-1};
+    double[] pos = {-1,-1};
+    return pos;
   }
 
   public double stopTime(double time) { //tells when the chap will stop moving assuming no collisions.
     //TODO: MAKE SURE TO ADD the CURRENT TIME FROM PARAMETERS!
-    if(velocity == [0,0]) {
+    double[] zero = {0,0};
+    if(velocity == zero) {
       return -1;
     }
     return -1;
