@@ -18,6 +18,7 @@ public class Board extends JPanel {
 	private boolean shouldDrawArrow;
 	private Point mousePoint;
 	private int team = 1;
+	private int startingChaps = 8;
 
 
 	public Board() {
@@ -36,7 +37,8 @@ public class Board extends JPanel {
 				//TODO: Add a way to check that a player won/ winning message
 
 				boolean won = true;
-				int firstTeamCount, secondTeamCount;
+				int firstTeamCount = startingChaps;
+				int secondTeamCount = startingChaps;
 
 				for(Chap chap : Main.board) {
 					if(chap.getTeam() == 0){
