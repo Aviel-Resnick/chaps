@@ -1,5 +1,6 @@
 import java.awt.event.MouseEvent;
-
+import java.util.ArrayList;
+import java.util.List;
 /*
 Chap Class
 - position
@@ -15,13 +16,24 @@ public class Chap {
   private boolean onBoard;
   private int team; //int so we could possibly have 2+ teams.
   private boolean isMoving;
+  private double[] angularV = new double[3]; //angular velocity vector.
+  public Event type1;
+  public Event[] type2;
+  private List<Event> type2liquid= new ArrayList<Event>();
+
 
   public Chap(double[] pos, double[] vel, int team) {
     this.position = pos;
     this.velocity = vel;
     this.onBoard = true;
+    this.angularV = new double[]{0,0,0};
     this.isMoving = false;
     this.team = team;
+  }
+
+  public void FinishStructure(){
+    this.type1.type = 1;
+    this.type1.p1 = this;
   }
 
   public void printInfo() {
@@ -38,6 +50,29 @@ public class Chap {
     double[] pos = {-1,-1};
     return pos;
   }
+
+  public void addType2(Event e){
+    //add type 2 event to mutable array list
+    type2liquid.add(e);
+  }
+
+  public void solidify(){
+    //convert type2liquid arryalist to type2 Array. no longer mutable so structure
+    // is solid and cannot change!
+    type2 = new Event[type2liquid.size()];
+    for(int i = 0; i<type2.length; i++){
+      type2[i] = type2liquid.get(i);
+    }
+  }
+
+  public double[] getAngularV(){
+    return this.angularV;
+  }
+
+  public void setAngularV(double[] angularV){
+    this.angularV = angularV;
+  }
+
 
   public double stopTime(double time) { //tells when the chap will stop moving assuming no collisions.
     //TODO: MAKE SURE TO ADD the CURRENT TIME FROM PARAMETERS!

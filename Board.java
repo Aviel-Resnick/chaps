@@ -19,20 +19,40 @@ public class Board extends JPanel {
 	private Point mousePoint;
 	private int team = 1;
 	private int startingChaps = 8;
+	private boolean isMouseReleased = false;
+	private boolean isStatic = true;
+	private static double[][] currentLayout;
 
 
 	public Board() {
+		repaint();
+		System.out.println("here");
 
 		this.addMouseListener(new MouseAdapter() {
 
 			//Reset the arrow
 			public void mouseReleased(MouseEvent e) {
 
+				isMouseReleased = true;
+
+				if(isMouseReleased && shouldDrawArrow && clickedChap != null) {
+					double[] vel = calculateVelocity(clickedChap);
+					clickedChap.setVelocity(vel);
+					team = Main.gameLoop(team);
+					for(double[][] layout : Main.getAnimation()) {
+						currentLayout = layout;
+						repaint();
+						try{ Thread.sleep(Main.waitTime); }
+						catch (Exception exc){}
+					}
+					isStatic = true;
+				}
+
 				clickedFirstTime = true;
 				clickedChap = null;
+
 				// we call the physics part and animate the result
 
-				team = Main.gameLoop(team);
 
 				//TODO: Add a way to check that a player won/ winning message
 
@@ -81,6 +101,7 @@ public class Board extends JPanel {
 				if(clickedChap != null) {
 					shouldDrawArrow = true;
 					mousePoint = e.getPoint();
+					isStatic = false;
 					repaint();
 				}
 
@@ -88,6 +109,10 @@ public class Board extends JPanel {
 
 		});
 
+	}
+
+	public static void setCurrentLayout(double[][] layout) {
+		currentLayout = layout;
 	}
 
 	//The dimensions of the panel
@@ -100,42 +125,20 @@ public class Board extends JPanel {
 	//Method for painting everything
 	//Note: Method is called twice during initialization
 	public void paintComponent(Graphics g) {
-
+		System.out.println("paintComponent");
 		super.paintComponent(g);
 
 		this.setBackground(Color.WHITE);
-
-		initializeOneSide(g, Constants.ONE_COLOR, Constants.ONE_START_Y);
-		initializeOneSide(g, Constants.TWO_COLOR, Constants.TWO_START_Y);
+		for(double[] pos : currentLayout){
+			drawChap(g, (int)(Math.round(pos[0])), (int)(Math.round(pos[1])));
+		}
 
 		//Runs only if a mouse drag occurred
-		if(shouldDrawArrow) {
+		if(isStatic && shouldDrawArrow && clickedChap != null) {
 			drawArrow(g, clickedChap);
 		}
 
-    }
-
-	//Draw the chaps for one of the teams
-	public void initializeOneSide(Graphics g, Color color, int y) {
-
-		g.setColor(color);
-		int teamByColor = color.equals(Constants.ONE_COLOR) ? 1 : 2;
-		int x;
-
-		for(int i = 0; i < 8; i++) {
-
-			x = 50 + (i * 100);
-			drawChap(g, x, y);
-
-			//Populate the list with the initial chaps
-			if(Main.board.size() < 16) {	//Prevents the addition of copies due to the repainting
-				Main.board.add(new Chap(new double[] {x, y}, new double[] {0, 0}, teamByColor));
-			}
-
-		}
-
-	}
-
+  }
 	//Prints the board's full data
 	public static void printBoard(List<Chap> board){
 
@@ -155,32 +158,38 @@ public class Board extends JPanel {
 	//Draws an arrow to show the direction and force of the hit
 	public void drawArrow(Graphics g, Chap chap) {
 
-		if(clickedChap != null) {
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setColor(Color.BLACK);
+		double[] position = chap.getPosition();
+		double changeX = position[0] - mousePoint.getX();
+		double changeY = position[1] - mousePoint.getY();
+		double endX = position[0] + (changeX);
+		double endY = position[1] + (changeY);
 
-			Graphics2D g2 = (Graphics2D) g;
-			g2.setColor(Color.BLACK);
-			double[] position = chap.getPosition();
-			double changeX = position[0] - mousePoint.getX();
-			double changeY = position[1] - mousePoint.getY();
-			double endX = position[0] + (changeX);
-			double endY = position[1] + (changeY);
+		//The main line
+		g2.draw(new Line2D.Double(position[0], position[1],
+				endX, endY));
 
-			//The main line
-			g2.draw(new Line2D.Double(position[0], position[1],
-					endX, endY));
+		//Arrow head
+		Path2D.Double arrow = new Path2D.Double();
+		arrow.moveTo(endX, endY);
+		arrow.lineTo(endX - 10 * (Math.cos(Math.atan(changeY / changeX) + (Math.PI / 2))),
+				endY - 10 * (Math.sin(Math.atan(changeY / changeX) + (Math.PI / 2))));
+		arrow.lineTo(endX + changeX * 0.2, endY + changeY * 0.2);
+		arrow.lineTo(endX + 10 * (Math.cos(Math.atan(changeY / changeX) + (Math.PI / 2))),
+				endY + 10 * (Math.sin(Math.atan(changeY / changeX) + (Math.PI / 2))));
+		arrow.lineTo(endX, endY);
+		g2.draw(arrow);
 
-			//Arrow head
-			Path2D.Double arrow = new Path2D.Double();
-			arrow.moveTo(endX, endY);
-			arrow.lineTo(endX - 10 * (Math.cos(Math.atan(changeY / changeX) + (Math.PI / 2))),
-					endY - 10 * (Math.sin(Math.atan(changeY / changeX) + (Math.PI / 2))));
-			arrow.lineTo(endX + changeX * 0.2, endY + changeY * 0.2);
-			arrow.lineTo(endX + 10 * (Math.cos(Math.atan(changeY / changeX) + (Math.PI / 2))),
-					endY + 10 * (Math.sin(Math.atan(changeY / changeX) + (Math.PI / 2))));
-			arrow.lineTo(endX, endY);
-			g2.draw(arrow);
+	}
 
-		}
+	public double[] calculateVelocity(Chap chap) {
+
+		double[] position = chap.getPosition();
+		double changeX = position[0] - mousePoint.getX();
+		double changeY = position[1] - mousePoint.getY();
+
+		return new double[]{changeX, changeY, 0};
 
 	}
 
