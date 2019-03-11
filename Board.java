@@ -21,11 +21,10 @@ public class Board extends JPanel {
 	private int startingChaps = 8;
 	private boolean isMouseReleased = false;
 	private boolean isStatic = true;
-	private static double[][] currentLayout;
+	public static double[][] currentLayout;
 
 
 	public Board() {
-		repaint();
 		System.out.println("here");
 
 		this.addMouseListener(new MouseAdapter() {
@@ -39,12 +38,7 @@ public class Board extends JPanel {
 					double[] vel = calculateVelocity(clickedChap);
 					clickedChap.setVelocity(vel);
 					team = Main.gameLoop(team);
-					for(double[][] layout : Main.getAnimation()) {
-						currentLayout = layout;
-						repaint();
-						try{ Thread.sleep(Main.waitTime); }
-						catch (Exception exc){}
-					}
+					System.out.println("Game Loop Done");
 					isStatic = true;
 				}
 
@@ -149,9 +143,11 @@ public class Board extends JPanel {
 	}
 
 	//Draw circle with the x and y being the center coordinates of the circle
-	public void drawChap(Graphics g, int x, int y) {
+	public void drawChap(Graphics g, int p0, int p1) {
+		//int x = (int)Math.round(p0+Constants.WINDOW_SIZE);
+		//int y = (int)Math.round(p1+Constants.WINDOW_SIZE); //TODO shitty code, do it in a loop. why am i stupid like this?
 
-		g.fillOval(x - Constants.RADIUS, y - Constants.RADIUS, 2 * Constants.RADIUS, 2 * Constants.RADIUS);
+		g.fillOval(p0 - Constants.RADIUS, p1 - Constants.RADIUS, 2 * Constants.RADIUS, 2 * Constants.RADIUS);
 
 	}
 

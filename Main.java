@@ -56,6 +56,8 @@ public class Main {
 	private static List<Event> recompute = new ArrayList<Event>(); //events to be recomputed. part of the time-saving structure.
 	private static ArrayList<double[]> speeds = new ArrayList<double[]>();
 	private static Chap[] boardArray;
+	private static JFrame frame;
+	private static Board theBoard;
 
 	public static void main(String[] args) {
 
@@ -65,11 +67,15 @@ public class Main {
 	}
 
 	public static void initialize() {
+		//sets all constants in constants.java
+		Constants.WINDOW_SIZE = 2 * dimension;
+		Constants.RADIUS = r;
+		Constants.FRICTION_COEFFICIENT = frictionCoefficient;
 
 		int x = 0;
 		for(int i = 0; i< numberPoints; i++){
-			x += 50;
-			double[] position = new double[]{x,0};
+			x += 60;
+			double[] position = new double[]{x,0,0};
 			board.add(new Chap(position,Z,1));
 		}
 
@@ -94,17 +100,12 @@ public class Main {
 	 	}
 		Board.setCurrentLayout(firstLayout);
 
-		JFrame frame = new JFrame("Chapayev");
+		frame = new JFrame("Chapayev");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Board theBoard = new Board();
+		theBoard = new Board();
 		frame.add(theBoard);
 		frame.pack();
 		frame.setVisible(true);
-
-		//sets all constants in constants.java
-		Constants.WINDOW_SIZE = 2 * dimension;
-		Constants.RADIUS = r;
-		Constants.FRICTION_COEFFICIENT = frictionCoefficient;
 	}
 
 
@@ -113,13 +114,22 @@ public class Main {
 		boolean allStop = false;
 		boolean teamSwitch = false;
 		double numberIncrements = 0;
-		while(allStop == false) {
+		while(allStop == false && time < 2) {
 			System.out.println("time: " + time);
 			findNextEvent(); //finds time and nature of the next event.
 			addToAnimation(event);		//create a smooth series of frames leading up to this event, and add it to the animation.
 			handleEvent(); //goes to that time. resets positions and velocities.
 			time = event.time; //update time
 			allStop = checkStop();
+		}
+
+		for(double[][] layout : animation) {
+			currentLayout = layout;
+			theBoard.currentLayout = layout;
+			theBoard.repaint();
+			System.out.println("in my loop!");
+			try{ Thread.sleep(waitTime); }
+			catch (Exception exc){}
 		}
 
 		//now, all the peices have stopped moving.

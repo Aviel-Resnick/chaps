@@ -11,8 +11,8 @@ Chap Class
 
 public class Chap {
 
-  private double[] position = new double[2]; //position vector
-  private double[] velocity = new double[2]; //velocity vector
+  private double[] position = new double[3]; //position vector
+  private double[] velocity = new double[3]; //velocity vector
   private boolean onBoard;
   private int team; //int so we could possibly have 2+ teams.
   private boolean isMoving;
@@ -38,8 +38,8 @@ public class Chap {
 
   public void printInfo() {
     System.out.println("---------------------------");
-    System.out.println("pos: (" + position[0] + "," + position[1] + ")");
-    System.out.println("vel: (" + velocity[0] + "," + velocity[1] + ")");
+    System.out.println("pos: (" + position[0] + "," + position[1] + "," + position[2] + ")");
+    System.out.println("vel: (" + velocity[0] + "," + velocity[1] + "," + velocity[2] + ")");
     System.out.println("onBoard: " + onBoard);
     System.out.println("team: " + team);
     System.out.println("---------------------------");
@@ -47,8 +47,10 @@ public class Chap {
 
   public double[] whereAt(double t){
     //returns where it will be in t time units.
-    double[] pos = {-1,-1};
-    return pos;
+    double[] p = position;
+    double[] v = velocity;
+
+    return new double[]{p[0]+v[0]*t, p[1]+v[1]*t, p[2]+v[2]*t};
   }
 
   public void addType2(Event e){
