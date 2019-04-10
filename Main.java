@@ -30,7 +30,7 @@ public class Main {
 	private static double frictionCoefficient = 0.75;
 
 	//section 2: animation---------------------
-	private static double increment = 0.01;
+	private static double increment = 0.1;
 	//increment is ONLY used for the animation (the simulation's time between each frame)
 	//make sure it is finer than the time between collisions, or the animation will be shit.
 
@@ -123,11 +123,13 @@ public class Main {
 			allStop = checkStop();
 		}
 
-		for(double[][] layout : animation) {
-			currentLayout = layout;
-			theBoard.currentLayout = layout;
-			theBoard.repaint();
-			System.out.println("in my loop!");
+		System.out.println(animation.size());
+		for(double[][] mylayout : animation) {
+			currentLayout = mylayout;
+			//System.out.println("(" + mylayout[0][0] + ", " + mylayout[0][1] + ")");
+			theBoard.currentLayout = mylayout;
+			frame.repaint();
+			//System.out.println("in my loop!");
 			try{ Thread.sleep(waitTime); }
 			catch (Exception exc){}
 		}
@@ -203,7 +205,12 @@ public class Main {
 			p.type1.time = update[3];
 
 		}
+
+		int smallWall = numberPoints - 1;
 		Arrays.sort(wallList);
+		while(wallList[smallWall].time < 0){
+			smallWall--;
+		}
 
 		//now, after updating the walls, update the collisions!
 		for(Event e : recompute){
@@ -215,7 +222,7 @@ public class Main {
 		Event smallestCollide = collideMatrix[1][0];
 		for(int i = 0; i < numberPoints; i++) {
 			for(int j = 0; j < i; j++) {
-				if(collideMatrix[i][j].time < smallestCollide.time) {
+				if(collideMatrix[i][j].time < smallestCollide.time && collideMatrix[i][j].time - time > 0) {
 					smallestCollide = collideMatrix[i][j];
 				}
 			}

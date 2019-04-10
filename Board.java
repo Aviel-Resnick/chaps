@@ -96,6 +96,7 @@ public class Board extends JPanel {
 					shouldDrawArrow = true;
 					mousePoint = e.getPoint();
 					isStatic = false;
+					System.out.println("Arrow");
 					repaint();
 				}
 
@@ -155,7 +156,7 @@ public class Board extends JPanel {
 	public void drawArrow(Graphics g, Chap chap) {
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(Color.BLACK);
+		g2.setColor(Color.RED);
 		double[] position = chap.getPosition();
 		double changeX = position[0] - mousePoint.getX();
 		double changeY = position[1] - mousePoint.getY();
