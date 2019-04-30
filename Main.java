@@ -34,7 +34,7 @@ public class Main {
 	//increment is ONLY used for the animation (the simulation's time between each frame)
 	//make sure it is finer than the time between collisions, or the animation will be shit.
 
-	public static int waitTime = 10;
+	public static int waitTime = 0;
 	//the amount of milliseconds to wait after each frame.
 
 
@@ -72,10 +72,10 @@ public class Main {
 		Constants.RADIUS = r;
 		Constants.FRICTION_COEFFICIENT = frictionCoefficient;
 
-		int x = 0;
+		int x = 50;
 		for(int i = 0; i< numberPoints; i++){
-			x += 60;
-			double[] position = new double[]{x,0,0};
+			x += 100;
+			double[] position = new double[]{x,600,0};
 			board.add(new Chap(position,Z,1));
 		}
 
